@@ -61,7 +61,11 @@ export function TextFieldInputBase(props: TextFieldInputProps) {
       aria-required={formControlContext.isRequired() || undefined}
       aria-disabled={formControlContext.isDisabled() || undefined}
       aria-readonly={formControlContext.isReadOnly() || undefined}
-      onInput={composeEventHandlers([local.onInput, context.onInput])}
+      onInput={(e: InputEvent) => {
+        const target  = e.target as HTMLInputElement;
+        if (target.value === context.value()) return;
+        composeEventHandlers([local.onInput, context.onInput])
+      }}
       {...formControlContext.dataset()}
       {...others}
     />
